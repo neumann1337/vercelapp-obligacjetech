@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import { CalculationResult } from '@/types/calculator';
-// Importujemy dane bezpośrednio z pliku JSON!
-import bondsData from '@/data/Bonds.json';
+import bondsData from '@/data/bonds.json';
 
 export const useCalculator = () => {
   const [amount, setAmount] = useState<number | ''>(1000);
-  // Domyślnie ustawiamy pierwszy symbol z pliku JSON
   const [selectedSymbol, setSelectedSymbol] = useState<string>(
     bondsData.length > 0 ? bondsData[0].symbol : ''
   );
@@ -14,7 +12,6 @@ export const useCalculator = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   
-  // Ponieważ dane mamy natychmiast z JSONa, loadingBonds zawsze będzie false
   const [loadingBonds, setLoadingBonds] = useState(false);
 
   const handleCalculate = (e: React.FormEvent) => {
@@ -28,16 +25,39 @@ export const useCalculator = () => {
 
     setLoading(true);
 
-    // SYMULACJA OBLICZEŃ (Przeniesiona z backendu na frontend)
     setTimeout(() => {
       const rate = bond.firstYearInterestRate / 100;
-      const years = bond.periodYears || 0.25; // dla OTS (3 miesiące)
+      const years = bond.periodYears || 0.25;
       
-      // Prosta matematyka lokaty + podatek Belki (19%)
       const grossProfit = Number(amount) * rate * years;
       const netProfit = grossProfit * 0.81; 
 
-      // W przyszłości możesz tu rozbudować algorytm dla procentu składanego (EDO/COI)
+      const generatedTimeline = [];
+      const totalMonths = Math.round(years * 12);
+      
+      generatedTimeline.push({ 
+        month: 0, 
+        totalValue: Number(amount), 
+        accumulatedProfit: 0 
+      });
+
+      if (years <= 1) {
+        generatedTimeline.push({ 
+          month: totalMonths, 
+          totalValue: Number(amount) + netProfit, 
+          accumulatedProfit: netProfit 
+        });
+      } else {
+        for (let i = 1; i <= years; i++) {
+          const currentProfit = (netProfit / years) * i;
+          generatedTimeline.push({
+            month: i * 12,
+            totalValue: Number(amount) + currentProfit,
+            accumulatedProfit: currentProfit
+          });
+        }
+      }
+
       setResults({
         daily: netProfit / (years * 365),
         weekly: netProfit / (years * 52),
@@ -45,14 +65,9 @@ export const useCalculator = () => {
         yearly: netProfit / years,
         total: netProfit,
         duration: `${years} lat`,
-        timeline: [
-          { 
-            month: years * 12, 
-            totalValue: Number(amount) + netProfit, 
-            accumulatedProfit: netProfit 
-          }
-        ]
+        timeline: generatedTimeline
       });
+      
       setLoading(false);
     }, 400);
   };

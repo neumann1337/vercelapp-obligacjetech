@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { TrendingUp, Clock, ShieldCheck, AlertCircle, RefreshCw, ChevronDown, ChevronUp } from 'lucide-react';
-import { PieChart } from 'lucide-react';
+import React, { useState } from 'react';
+import { TrendingUp, Clock, ShieldCheck, ChevronDown, ChevronUp } from 'lucide-react';
+import bondsData from '@/data/bonds.json';
 
-// 1. ZAKTUALIZOWANY INTERFEJS (zgodny z Bonds.json)
-interface RawBondFromApi {
+interface RawBondData {
     symbol: string;
     name: string;
     firstYearInterestRate: number;
@@ -25,9 +24,7 @@ interface BondDisplay {
     features: string[];
 }
 
-// 2. ZAKTUALIZOWANA FUNKCJA MAPUJĄCA
-const transformBondData = (raw: RawBondFromApi): BondDisplay => {
-    // Używamy nowych, angielskich kluczy z Twojego JSON-a
+const transformBondData = (raw: RawBondData): BondDisplay => {
     const { symbol, name: apiName, firstYearInterestRate, periodYears } = raw;
     const prefix = symbol.substring(0, 3);
 
@@ -37,7 +34,6 @@ const transformBondData = (raw: RawBondFromApi): BondDisplay => {
     let desc = "";
     let features: string[] = [];
     
-    // Zabezpieczenie na wypadek, gdyby wartość z backendu była null/undefined
     const rate = firstYearInterestRate || 0;
     const interestStr = `${rate.toFixed(2).replace('.', ',')}%`;
 
@@ -88,102 +84,32 @@ const transformBondData = (raw: RawBondFromApi): BondDisplay => {
     }
 
     return {
-        symbol,
-        name,
-        type,
-        interest: interestStr,
-        duration: durationStr,
-        desc,
-        color,
-        features
+        symbol, name, type, interest: interestStr, duration: durationStr, desc, color, features
     };
 };
 
 export default function BondDetails() {
-    const [bondsToDisplay, setBondsToDisplay] = useState<BondDisplay[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-
-    const fetchBonds = async () => {
-        setLoading(true);
-        setError(null);
-        try {
-            const response = await fetch('http://localhost:8080/api/obligacje');
-            
-            if (!response.ok) {
-                throw new Error(`Błąd serwera: ${response.status}`);
-            }
-
-            const rawData: RawBondFromApi[] = await response.json();
-            const processedData = rawData.map(transformBondData);
-            
-            setBondsToDisplay(processedData);
-        } catch (e: any) {
-            console.error("Błąd połączenia z backendem:", e);
-            setError("Nie udało się połączyć z serwerem (localhost:8080). Sprawdź, czy backend działa.");
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchBonds();
-    }, []);
-
-    if (loading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-[#fafafa]">
-                <div className="flex flex-col items-center">
-                    <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600 mb-4"></div>
-                    <p className="text-gray-500 font-medium">Pobieranie oferty z backendu...</p>
-                </div>
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-[#fafafa] p-4">
-                <div className="bg-white p-8 rounded-2xl shadow-lg border border-red-100 max-w-md text-center">
-                    <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">Błąd połączenia</h3>
-                    <p className="text-gray-500 mb-6">{error}</p>
-                    <button 
-                        onClick={fetchBonds}
-                        className="flex items-center justify-center gap-2 w-full py-3 bg-red-50 text-red-600 font-semibold rounded-xl hover:bg-red-100 transition-colors"
-                    >
-                        <RefreshCw size={18} /> Spróbuj ponownie
-                    </button>
-                </div>
-            </div>
-        );
-    }
+    const bondsToDisplay = bondsData.map(transformBondData);
 
     return (
         <div className="min-h-screen bg-[#fafafa] font-sans text-gray-900 pb-20">
-        
             <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100 px-6 py-4 flex justify-center">
                 <div className="w-full max-w-5xl flex justify-between items-center">
-                <a href="#" className="flex items-center gap-2 text-gray-900 font-semibold no-underline" onClick={(e) => e.preventDefault()}>
+                <a href="/" className="flex items-center gap-2 text-gray-900 font-semibold no-underline">
                     <TrendingUp size={20} className="text-blue-600" />
                     <span>Obligacje.tech</span>
                 </a>
-                <span className="text-xs font-medium px-3 py-1 bg-green-100 text-green-700 rounded-full flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                    Dane z API Live
-                </span>
                 </div>
             </nav>
 
             <main className="max-w-7xl mx-auto px-6 pt-16">
-                
                 <header className="text-center max-w-3xl mx-auto mb-20">
                 <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 text-gray-900">
                     Aktualna Oferta <br /> Skarbu Państwa
                 </h1>
                 <p className="text-lg text-gray-500 leading-relaxed">
-                    Poniższe dane pobierane są z API.
-                    Wybierz instrument dopasowany do Twoich celów.
+                    Wybierz instrument dopasowany do Twoich celów. 
+                    Dane są zawsze aktualne na bieżący miesiąc.
                 </p>
                 </header>
 
@@ -203,17 +129,12 @@ export default function BondDetails() {
 
                 <div className="space-y-1">
                     <FaqItem 
-                    question="Skąd pochodzą te dane?" 
-                    answer="Dane są pobierane w czasie rzeczywistym z API." 
-                    />
-                    <FaqItem 
                     question="Czy oprocentowanie jest stałe?" 
-                    answer="Dla obligacji OTS i DOS - tak. Dla pozostałych (TOZ, COI, EDO) podane oprocentowanie dotyczy tylko pierwszego okresu odsetkowego." 
+                    answer="Dla obligacji OTS i DOR - tak. Dla pozostałych (ROR, TOS, COI, EDO) podane oprocentowanie dotyczy tylko pierwszego okresu odsetkowego." 
                     />
                 </div>
                 </section>
             </main>
-        
         </div>
     );
 }
@@ -230,7 +151,6 @@ function BondCard({ bond }: { bond: BondDisplay }) {
       <div className={`absolute inset-0 bg-gradient-to-br ${bond.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
       
       <div className="relative bg-white rounded-[22px] p-8 h-full flex flex-col z-10">
-        
         <div className="flex justify-between items-start mb-6">
           <span className={`text-xs font-bold uppercase tracking-wider bg-gradient-to-r ${bond.color} bg-clip-text text-transparent border border-gray-100 px-2 py-1 rounded-md`}>
             {bond.symbol}
