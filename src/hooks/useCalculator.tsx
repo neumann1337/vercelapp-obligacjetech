@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { CalculationResult } from '@/types/calculator';
 // Importujemy dane bezpośrednio z pliku JSON!
-import bondsData from '@/data/bonds.json';
+import bondsData from '@/data/Bonds.json';
 
 export const useCalculator = () => {
   const [amount, setAmount] = useState<number | ''>(1000);
