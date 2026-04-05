@@ -1,0 +1,50 @@
+[
+  {
+    "symbol": "OTS0226",
+    "name": "3-miesięczne stałoprocentowe (OTS)",
+    "firstYearInterestRate": 2.50,
+    "inflationMargin": null,
+    "capitalization": false,
+    "periodYears": 0
+  },
+  {
+    "symbol": "ROR1126",
+    "name": "1-roczne zmienne (ROR)",
+    "firstYearInterestRate": 4.25,
+    "inflationMargin": null,
+    "capitalization": false,
+    "periodYears": 1
+  },
+  {
+    "symbol": "DOR1127",
+    "name": "2-letnie zmienne (DOR)",
+    "firstYearInterestRate": 4.40,
+    "inflationMargin": null,
+    "capitalization": false,
+    "periodYears": 2
+  },
+  {
+    "symbol": "TOS1128",
+    "name": "3-letnie stałoprocentowe (TOS)",
+    "firstYearInterestRate": 4.65,
+    "inflationMargin": null,
+    "capitalization": true,
+    "periodYears": 3
+  },
+  {
+    "symbol": "COI1129",
+    "name": "4-letnie indeksowane (COI)",
+    "firstYearInterestRate": 5.00,
+    "inflationMargin": null,
+    "capitalization": false,
+    "periodYears": 4
+  },
+  {
+    "symbol": "EDO1135",
+    "name": "10-letnie emerytalne (EDO)",
+    "firstYearInterestRate": 5.60,
+    "inflationMargin": null,
+    "capitalization": true,
+    "periodYears": 10
+  }
+]
