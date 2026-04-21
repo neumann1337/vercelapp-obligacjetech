@@ -150,33 +150,35 @@ function BondCard({ bond }: { bond: BondDisplay }) {
     >
       <div className={`absolute inset-0 bg-gradient-to-br ${bond.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
       
-      <div className="relative bg-white rounded-[22px] p-8 h-full flex flex-col z-10">
-        <div className="flex justify-between items-start mb-6">
-          <span className={`text-xs font-bold uppercase tracking-wider bg-gradient-to-r ${bond.color} bg-clip-text text-transparent border border-gray-100 px-2 py-1 rounded-md`}>
+      {/* ZMIANA: p-6 na mobilkach, p-8 na tabletach i PC */}
+      <div className="relative bg-white rounded-[22px] p-6 sm:p-8 h-full flex flex-col z-10">
+        <div className="flex justify-between items-start mb-5 sm:mb-6">
+          <span className={`text-[10px] sm:text-xs font-bold uppercase tracking-wider bg-gradient-to-r ${bond.color} bg-clip-text text-transparent border border-gray-100 px-2 py-1 rounded-md`}>
             {bond.symbol}
           </span>
-          <div className="flex items-center gap-1 text-xs font-semibold text-gray-400 bg-gray-50 px-2 py-1 rounded-md">
-            <Clock size={12} /> {bond.duration}
+          <div className="flex items-center gap-1 text-[10px] sm:text-xs font-semibold text-gray-400 bg-gray-50 px-2 py-1 rounded-md">
+            <Clock size={12} className="w-3 h-3" /> {bond.duration}
           </div>
         </div>
 
-        <div className="mb-6">
-          <h3 className="text-xl font-bold text-gray-900 mb-2 leading-tight">{bond.name}</h3>
+        <div className="mb-5 sm:mb-6">
+          {/* ZMIANA: Mniejszy nagłówek i kwota na telefonach */}
+          <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-1.5 sm:mb-2 leading-tight">{bond.name}</h3>
           <div className="flex items-baseline gap-2">
-            <span className="text-4xl font-extrabold text-gray-900 tracking-tight">{bond.interest}</span>
+            <span className="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">{bond.interest}</span>
           </div>
-          <p className="text-xs text-gray-400 mt-2 font-medium uppercase tracking-wide">{bond.type}</p>
+          <p className="text-[10px] sm:text-xs text-gray-400 mt-1.5 sm:mt-2 font-medium uppercase tracking-wide">{bond.type}</p>
         </div>
 
-        <p className="text-gray-500 text-sm leading-relaxed mb-8 flex-grow border-t border-gray-50 pt-4">
+        <p className="text-gray-500 text-xs sm:text-sm leading-relaxed mb-6 flex-grow border-t border-gray-50 pt-4">
           {bond.desc}
         </p>
 
-        <ul className="space-y-3 mb-8">
+        <ul className="space-y-2 sm:space-y-3 mb-2">
           {bond.features.map((feature, idx) => (
-            <li key={idx} className="flex items-center text-xs text-gray-600 font-medium">
-              <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${bond.color} mr-3 flex-shrink-0`} />
-              {feature}
+            <li key={idx} className="flex items-start sm:items-center text-[11px] sm:text-xs text-gray-600 font-medium">
+              <div className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${bond.color} mr-2.5 mt-1 sm:mt-0 flex-shrink-0`} />
+              <span className="leading-tight">{feature}</span>
             </li>
           ))}
         </ul>
