@@ -1,48 +1,48 @@
 [
   {
-    "symbol": "OTS0226",
+    "symbol": "OTS0726",
     "name": "3-miesięczne stałoprocentowe (OTS)",
-    "firstYearInterestRate": 2.50,
+    "firstYearInterestRate": 2.00,
     "inflationMargin": null,
     "capitalization": false,
     "periodYears": 0
   },
   {
-    "symbol": "ROR1126",
+    "symbol": "ROR0427",
     "name": "1-roczne zmienne (ROR)",
-    "firstYearInterestRate": 4.25,
+    "firstYearInterestRate": 4.00,
     "inflationMargin": null,
     "capitalization": false,
     "periodYears": 1
   },
   {
-    "symbol": "DOR1127",
+    "symbol": "DOR0428",
     "name": "2-letnie zmienne (DOR)",
-    "firstYearInterestRate": 4.40,
+    "firstYearInterestRate": 4.15,
     "inflationMargin": null,
     "capitalization": false,
     "periodYears": 2
   },
   {
-    "symbol": "TOS1128",
+    "symbol": "TOS0429",
     "name": "3-letnie stałoprocentowe (TOS)",
-    "firstYearInterestRate": 4.65,
+    "firstYearInterestRate": 4.40,
     "inflationMargin": null,
     "capitalization": true,
     "periodYears": 3
   },
   {
-    "symbol": "COI1129",
+    "symbol": "COI0430",
     "name": "4-letnie indeksowane (COI)",
-    "firstYearInterestRate": 5.00,
+    "firstYearInterestRate": 4.75,
     "inflationMargin": null,
     "capitalization": false,
     "periodYears": 4
   },
   {
-    "symbol": "EDO1135",
+    "symbol": "EDO0436",
     "name": "10-letnie emerytalne (EDO)",
-    "firstYearInterestRate": 5.60,
+    "firstYearInterestRate": 5.35,
     "inflationMargin": null,
     "capitalization": true,
     "periodYears": 10
