@@ -120,12 +120,6 @@ export const CurrencyWidget = () => {
           </p>
         </div>
       </div>
-
-      {/* GRID Z KAFELKAMI WALUT 
-        - grid-cols-1: domyślnie na bardzo małych ekranach
-        - sm:grid-cols-2: na większych telefonach 2 kolumny (3 rzędy)
-        - md:grid-cols-3: na tablecie i desktopie 3 kolumny (2 rzędy)
-      */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5 w-full">
         <CurrencyTile code="eur" icon={Euro} color="text-blue-600" />
         <CurrencyTile code="usd" icon={DollarSign} color="text-emerald-600" />
