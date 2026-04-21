@@ -45,7 +45,7 @@ export const ResultDisplay = ({ results, amount, formatPLN }: { results: Calcula
     <div className="mt-10 animate-in fade-in duration-500 slide-in-from-bottom-4">
       <h2 className="text-2xl font-semibold mb-6 text-[#1D1D1F]">Twoja prognoza</h2>
       
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-5 mb-10">
           <ResultWidget label="Zysk Dzienny" value={formatPLN(results.daily)} />
           <ResultWidget label="Zysk Miesięczny" value={formatPLN(results.monthly)} />
           <ResultWidget label="Zysk Roczny (śr.)" value={formatPLN(results.yearly)} />
