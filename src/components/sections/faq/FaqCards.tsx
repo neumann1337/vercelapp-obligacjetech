@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { Accordion } from '@/components/ui/Accordion';
 
@@ -18,7 +18,7 @@ export const FAQ_DATA = [
     title: 'Czy mogę sprzedać obligacje przed terminem?',
     content: [
       'Tak. Większość obligacji można wykupić wcześniej.',
-      'Jedyna „kara” to opłata: np. 70 groszy od obligacji COI/EDO. To koszt wcześniejszego wyjścia, ale dalej wychodzisz na plus, jeśli trzymałeś je dłużej niż parę miesięcy.'
+      'Jedyna „kara" to opłata: np. 70 groszy od obligacji COI/EDO. To koszt wcześniejszego wyjścia, ale dalej wychodzisz na plus, jeśli trzymałeś je dłużej niż parę miesięcy.'
     ]
   },
   {
@@ -31,7 +31,7 @@ export const FAQ_DATA = [
   },
   {
     id: 'inflacja_marza',
-    title: 'Jak działa „inflacja + marża” w COI i EDO?',
+    title: 'Jak działa „inflacja + marża" w COI i EDO?',
     content: [
       'W kolejnych latach oprocentowanie = inflacja z GUS za poprzedni rok + stała marża (np. 1%).',
       'Jeśli inflacja wynosi 4%, a marża 1%, to dostajesz 5% oprocentowania w danym roku.',
@@ -43,7 +43,7 @@ export const FAQ_DATA = [
     title: 'COI czy EDO — które wybrać?',
     content: [
       'COI – 4 lata, dobre jeśli nie chcesz zamrażać kapitału na długi termin.',
-      'EDO – 10 lat, najwyższe realne zyski, pełna moc procentu składanego, idealne „emerytalne oszczędzanie”.',
+      'EDO – 10 lat, najwyższe realne zyski, pełna moc procentu składanego, idealne „emerytalne oszczędzanie".',
       'Najczęściej stosuje się miks — część COI na średni okres, część EDO na długi termin.'
     ]
   },
@@ -78,8 +78,8 @@ export const FAQ_DATA = [
     title: 'Które obligacje są najlepsze dla początkującego?',
     content: [
       'Najczęściej poleca się COI i EDO, bo chronią przed inflacją.',
-      'Jeśli boisz się długich terminów, część kapitału można dać w OTS lub ROR jako „płynny bufor”.',
-      'Najważniejsze jest rozłożenie kapitału, a nie trafienie w jeden „najlepszy” produkt.'
+      'Jeśli boisz się długich terminów, część kapitału można dać w OTS lub ROR jako „płynny bufor".',
+      'Najważniejsze jest rozłożenie kapitału, a nie trafienie w jeden „najlepszy" produkt.'
     ]
   },
   {
@@ -90,10 +90,102 @@ export const FAQ_DATA = [
       'W połowie okresu po prostu zapłacisz opłatę za wcześniejszy wykup, ale reszta odsetek zostaje u Ciebie.',
       'To daje elastyczność, jeśli coś się zmieni w Twoim życiu.'
     ]
-  }
+  },
+{
+  id: 'minimalna-kwota',
+  title: 'Jaka jest minimalna kwota inwestycji w obligacje?',
+  content: [
+    'Minimalna kwota to 100 zł — tyle kosztuje jedna obligacja.',
+    'Możesz kupić dowolną liczbę obligacji, więc łatwo zacząć nawet z małym kapitałem.'
+  ]
+},
+{
+  id: 'jak-kupic',
+  title: 'Jak kupić obligacje skarbowe?',
+  content: [
+    'Możesz kupić je online przez stronę obligacjeskarbowe.pl, w banku PKO BP lub przez infolinię.',
+    'Proces jest prosty i zajmuje kilka minut — potrzebujesz tylko konta i danych osobowych.'
+  ]
+},
+{
+  id: 'czy-warto',
+  title: 'Czy warto inwestować w obligacje w 2026?',
+  content: [
+    'Obligacje to jedna z najbezpieczniejszych form inwestowania.',
+    'Szczególnie COI i EDO chronią kapitał przed inflacją, więc są dobrą opcją na długoterminowe oszczędzanie.'
+  ]
+},
+{
+  id: 'oplaty',
+  title: 'Jakie są opłaty przy obligacjach?',
+  content: [
+    'Zakup obligacji jest darmowy.',
+    'Opłata pojawia się tylko przy wcześniejszym wykupie (np. 0,70 zł lub 2 zł za obligację w zależności od typu).'
+  ]
+},
+{
+  id: 'dziedziczenie',
+  title: 'Czy obligacje można odziedziczyć?',
+  content: [
+    'Tak, obligacje podlegają dziedziczeniu.',
+    'Możesz też wskazać osobę uposażoną, która otrzyma środki bez postępowania spadkowego.'
+  ]
+},
+{
+  id: 'inflacja-spada',
+  title: 'Co jeśli inflacja spadnie?',
+  content: [
+    'W obligacjach COI i EDO oprocentowanie w kolejnych latach spadnie razem z inflacją.',
+    'Zawsze jednak masz zagwarantowaną marżę ponad inflację.'
+  ]
+},
+{
+  id: 'czy-trzeba-konto',
+  title: 'Czy potrzebuję konta bankowego?',
+  content: [
+    'Tak, potrzebujesz konta do zakupu i wypłaty środków.',
+    'Najczęściej używane jest konto w PKO BP lub Inteligo, ale możesz wskazać inne.'
+  ]
+},
+{
+  id: 'oprocentowanie-zmienne',
+  title: 'Czy oprocentowanie obligacji może się zmienić?',
+  content: [
+    'Tak — w obligacjach indeksowanych inflacją zmienia się co roku.',
+    'W pierwszym roku masz stałe oprocentowanie, a potem zależy ono od inflacji + marży.'
+  ]
+},
+{
+  id: 'bezpieczenstwo-panstwo',
+  title: 'Kto gwarantuje obligacje skarbowe?',
+  content: [
+    'Obligacje skarbowe są gwarantowane przez Skarb Państwa.',
+    'Oznacza to bardzo wysoki poziom bezpieczeństwa w porównaniu do innych inwestycji.'
+  ]
+},
+{
+  id: 'roznica-lokata',
+  title: 'Obligacje czy lokata — co lepsze?',
+  content: [
+    'Lokaty są prostsze, ale często przegrywają z inflacją.',
+    'Obligacje (zwłaszcza COI i EDO) lepiej chronią wartość pieniędzy w czasie.'
+  ]
+}
 ];
 
 export const FaqCards = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredFaq = searchQuery.trim() === ''
+    ? FAQ_DATA
+    : FAQ_DATA.filter(({ title, content }) => {
+        const q = searchQuery.toLowerCase();
+        return (
+          title.toLowerCase().includes(q) ||
+          content.some(line => line.toLowerCase().includes(q))
+        );
+      });
+
   return (
     <main className="max-w-3xl mx-auto px-5 py-12">
       <header className="text-center mb-12">
@@ -105,21 +197,29 @@ export const FaqCards = () => {
         </p>
       </header>
 
+      <input
+        type="text"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        placeholder="Szukaj w FAQ..."
+        className="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-blue-500 transition-colors mb-6"
+      />
+
       <section className="space-y-2">
-        {FAQ_DATA.map((section) => (
-          <Accordion 
-            key={section.id} 
-            title={section.title} 
-            content={section.content} 
-          />
-        ))}
+        {filteredFaq.length > 0 ? (
+          filteredFaq.map((section) => (
+            <Accordion key={section.id} title={section.title} content={section.content} />
+          ))
+        ) : (
+          <p className="text-gray-500 text-center py-4">Brak wyników dla "{searchQuery}"</p>
+        )}
       </section>
 
       <div className="mt-20 text-center">
         <p className="text-gray-500 mb-6 text-sm font-medium">
           Masz już teorię? Przejdź do praktyki.
         </p>
-        
+
         <a href="/kalkulator" className="inline-block group no-underline">
           <button className="
             flex items-center gap-3 px-8 py-4 rounded-2xl
