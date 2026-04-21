@@ -143,7 +143,7 @@ export const GoldPriceWidget = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-5 w-full">
+      <div className="grid grid-cols-3 sm:grid-cols-3 gap-4 md:gap-5 w-full">
         
         <CommodityTile 
           title="Złoto"
