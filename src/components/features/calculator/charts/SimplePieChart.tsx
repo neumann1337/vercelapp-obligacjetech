@@ -4,7 +4,7 @@ import React from 'react';
 import { PieChart, ArrowUpRight } from 'lucide-react';
 
 interface SimplePieChartProps {
-  amount: number; // <-- ZMIANA: amount zamiast capital
+  amount: number;
   profit: number;
   formatPLN: (v: number) => string;
 }

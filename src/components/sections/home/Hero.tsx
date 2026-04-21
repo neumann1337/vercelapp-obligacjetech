@@ -35,9 +35,6 @@ export const Hero = () => {
             OBLIGACJE<span className="text-teal-500">.</span>TECH
           </span>
         </h1>
-        <p className="text-base sm:text-lg md:text-xl text-gray-500 max-w-2xl mx-auto mb-10 md:mb-12 leading-relaxed font-medium px-2 md:px-0"> <br className="hidden md:inline"/>
-          Symuluj zyski z matematyczną precyzją,{' '}
-        </p>
         <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center w-full max-w-sm sm:max-w-none mx-auto">
           <a href="/kalkulator" className="w-full sm:w-auto no-underline">
             <motion.button

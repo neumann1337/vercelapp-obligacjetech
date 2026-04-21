@@ -8,27 +8,23 @@ export const useCalculator = () => {
     bondsData.length > 0 ? bondsData[0].symbol : ''
   );
   const [results, setResults] = useState<CalculationResult | null>(null); 
-  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
   const [loadingBonds, setLoadingBonds] = useState(false);
 
   const handleCalculate = (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    
     if (!amount || Number(amount) <= 0) return setError('Podaj poprawną kwotę.');
     
-    const bond = bondsData.find(b => b.symbol === selectedSymbol);
+    const bond = bondsData.find((b: any) => b.symbol === selectedSymbol);
     if (!bond) return setError('Nie znaleziono obligacji.');
 
     setLoading(true);
 
     setTimeout(() => {
       const rate = bond.firstYearInterestRate / 100;
-      const years = bond.periodYears || 0.25;
-      
+      const years = bond.periodYears || 0.25; 
       const grossProfit = Number(amount) * rate * years;
       const netProfit = grossProfit * 0.81; 
 
@@ -41,21 +37,23 @@ export const useCalculator = () => {
         accumulatedProfit: 0 
       });
 
-      if (years <= 1) {
-        generatedTimeline.push({ 
-          month: totalMonths, 
-          totalValue: Number(amount) + netProfit, 
-          accumulatedProfit: netProfit 
+      const prefix = bond.symbol.substring(0, 3);
+      let stepMonths = 12; 
+
+      if (prefix === 'OTS' || prefix === 'ROR' || prefix === 'DOR') {
+        stepMonths = 1; 
+      } else if (prefix === 'TOS') {
+        stepMonths = 6; 
+      }
+
+      for (let m = stepMonths; m <= totalMonths; m += stepMonths) {
+        const currentProfit = (netProfit / totalMonths) * m;
+        
+        generatedTimeline.push({
+          month: m,
+          totalValue: Number(amount) + currentProfit,
+          accumulatedProfit: currentProfit
         });
-      } else {
-        for (let i = 1; i <= years; i++) {
-          const currentProfit = (netProfit / years) * i;
-          generatedTimeline.push({
-            month: i * 12,
-            totalValue: Number(amount) + currentProfit,
-            accumulatedProfit: currentProfit
-          });
-        }
       }
 
       setResults({
@@ -65,14 +63,14 @@ export const useCalculator = () => {
         yearly: netProfit / years,
         total: netProfit,
         duration: `${years} lat`,
-        timeline: generatedTimeline
+        timeline: generatedTimeline 
       });
       
       setLoading(false);
     }, 400);
   };
 
-  const selectedBondInfo = bondsData.find(b => b.symbol === selectedSymbol);
+  const selectedBondInfo = bondsData.find((b: any) => b.symbol === selectedSymbol);
 
   return {
     amount, setAmount,
