@@ -75,47 +75,49 @@ const CommodityTile = ({
   bgGlowClass
 }: CommodityTileProps) => {
   return (
-    <div className="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm flex flex-col justify-between h-36 relative overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-500 cursor-default w-full">
+    // ZMIANA: p-3 na mobilkach, p-6 na większych, mniejsze zaokrąglenie na mobilkach
+    <div className="bg-white p-3 sm:p-6 rounded-2xl sm:rounded-[2rem] border border-gray-100 shadow-sm flex flex-col justify-between h-32 sm:h-36 relative overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-500 cursor-default w-full">
       <div className={`absolute -top-10 -right-10 w-32 h-32 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none ${bgGlowClass}`} />
 
       <div className="flex justify-between items-start relative z-10">
-        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 group-hover:text-gray-500 transition-colors">
-          {title} ({unit})
+        <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 group-hover:text-gray-500 transition-colors line-clamp-2">
+          {title} <span className="hidden sm:inline">({unit})</span>
         </p>
-        <div className="p-2 rounded-xl bg-gray-50 group-hover:bg-white border border-transparent group-hover:border-gray-100 shadow-sm transition-all duration-300">
-          <Icon size={18} strokeWidth={2.5} className={`${colorClass} opacity-80 group-hover:scale-110 transition-transform`} />
+        <div className="p-1.5 sm:p-2 rounded-xl bg-gray-50 group-hover:bg-white border border-transparent group-hover:border-gray-100 shadow-sm transition-all duration-300">
+          <Icon size={16} strokeWidth={2.5} className={`sm:w-[18px] sm:h-[18px] ${colorClass} opacity-80 group-hover:scale-110 transition-transform`} />
         </div>
       </div>
 
       <div className="relative z-10 mt-auto">
         {loading ? (
-          <div className="h-8 w-24 bg-gray-100 rounded-lg animate-pulse" />
+          <div className="h-6 sm:h-8 w-16 sm:w-24 bg-gray-100 rounded-lg animate-pulse" />
         ) : error ? (
-          <div className="flex flex-col items-start gap-1.5 bg-red-50 p-2 rounded-xl border border-red-100 w-fit">
-            <span className="text-[10px] text-red-600 font-black uppercase tracking-wider">Błąd API</span>
+          <div className="flex flex-col items-start gap-1 sm:gap-1.5 bg-red-50 p-1.5 sm:p-2 rounded-xl border border-red-100 w-fit">
+            <span className="text-[9px] sm:text-[10px] text-red-600 font-black uppercase tracking-wider">Błąd API</span>
             <button 
               onClick={(e) => { e.preventDefault(); refetch(); }} 
-              className="text-[10px] text-red-500 hover:text-red-700 underline font-bold transition-colors"
+              className="text-[9px] sm:text-[10px] text-red-500 hover:text-red-700 underline font-bold transition-colors"
             >
               Ponów
             </button>
           </div>
         ) : (
-          <div className="flex items-baseline gap-1 text-gray-900 group-hover:text-gray-700 transition-colors duration-300">
-            <span className="text-3xl font-black tracking-tighter tabular-nums">
+          // ZMIANA: gap-0.5, mniejszy tekst na mobilkach, truncate żeby tekst nie spadał do nowej linii
+          <div className="flex items-baseline gap-0.5 sm:gap-1 text-gray-900 group-hover:text-gray-700 transition-colors duration-300 truncate">
+            <span className="text-lg sm:text-2xl lg:text-3xl font-black tracking-tighter tabular-nums truncate">
               {price?.toFixed(2).replace('.', ',')}
             </span>
-            <span className="text-sm font-black opacity-60">PLN</span>
+            <span className="text-[10px] sm:text-sm font-black opacity-60 ml-0.5">PLN</span>
           </div>
         )}
       </div>
 
-      <div className="flex justify-between items-center relative z-10 mt-2">
-        <p className="text-[10px] text-gray-400 font-bold truncate uppercase tracking-widest leading-none">
+      <div className="flex justify-between items-center relative z-10 mt-1 sm:mt-2">
+        <p className="text-[8px] sm:text-[10px] text-gray-400 font-bold truncate uppercase tracking-widest leading-none">
           {source}
         </p>
         {!loading && !error && (
-          <TrendingUp size={12} strokeWidth={3} className={`${colorClass} opacity-0 group-hover:opacity-100 transition-opacity`} />
+          <TrendingUp size={10} strokeWidth={3} className={`sm:w-3 sm:h-3 ${colorClass} opacity-0 group-hover:opacity-100 transition-opacity`} />
         )}
       </div>
     </div>
@@ -129,21 +131,22 @@ export const GoldPriceWidget = () => {
 
   return (
     <section className="w-full mt-8">
-      <div className="flex items-center gap-3 mb-6">
-        <div className="p-2.5 bg-gray-100 rounded-xl shadow-sm border border-gray-200 text-gray-900">
-          <Gem size={20} strokeWidth={2.5} />
+      <div className="flex items-center gap-3 mb-4 sm:mb-6">
+        <div className="p-2 sm:p-2.5 bg-gray-100 rounded-xl shadow-sm border border-gray-200 text-gray-900">
+          <Gem size={20} strokeWidth={2.5} className="w-4 h-4 sm:w-5 sm:h-5" />
         </div>
         <div>
-          <h2 className="text-xl md:text-2xl font-black tracking-tighter leading-none text-gray-900">
+          <h2 className="text-lg sm:text-xl md:text-2xl font-black tracking-tighter leading-none text-gray-900">
             Rynek Surowców
           </h2>
-          <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-1.5">
+          <p className="text-[9px] sm:text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-1 sm:mt-1.5">
             Metale szlachetne (Kruszce)
           </p>
         </div>
       </div>
 
-      <div className="grid grid-cols-3 sm:grid-cols-3 gap-4 md:gap-5 w-full">
+      {/* ZMIANA: gap-2 na urządzeniach mobilnych, gap-4/5 na większych */}
+      <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-5 w-full">
         
         <CommodityTile 
           title="Złoto"
