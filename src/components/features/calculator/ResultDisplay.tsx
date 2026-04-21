@@ -23,11 +23,11 @@ function MainResultTile({ results, formatPLN }: { results: CalculationResult, fo
       <div className="w-full">
           <div 
               style={{ ...gradientStyle, transition: 'all 0.3s ease' }}
-              className="p-6 md:p-8 rounded-3xl text-white shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center cursor-pointer hover:shadow-2xl hover:scale-[1.01] transform"
+              className="p-6 md:p-8 rounded-[24px] text-white shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center cursor-pointer hover:shadow-2xl hover:scale-[1.01] transform"
               onClick={() => setIsOpen(!isOpen)}
           >
               <div className="flex-grow mb-4 md:mb-0">
-                  <p className="opacity-90 text-base md:text-lg mb-1 font-medium">Zysk całkowity "na rękę" (netto)</p>
+                  <p className="opacity-90 text-sm md:text-base mb-1 font-medium">Zysk całkowity "na rękę" (netto)</p>
                   <h3 className="text-4xl md:text-5xl font-extrabold tracking-tight">{formatPLN(results.total)}</h3>
               </div>
               <div className="flex items-center space-x-4">
@@ -55,27 +55,30 @@ export const ResultDisplay = ({ results, amount, formatPLN }: { results: Calcula
       </div>
 
       <div className="flex flex-col gap-8">
-          <div className="bg-white rounded-[24px] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-black/5 pb-6">
-              <div className="p-6 border-b border-gray-100 flex justify-between items-center">
-                  <h3 className="text-lg font-bold text-[#1D1D1F]">Progresja kapitału</h3>
+          {/* KAFELEK 1: Wykres Liniowy */}
+          <div className="bg-white rounded-[24px] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-black/5 overflow-hidden flex flex-col">
+              <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-white z-10">
+                  <h3 className="text-lg md:text-xl font-bold text-[#1D1D1F]">Progresja kapitału</h3>
                   <div className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-widest">Wzrost</div>
               </div>
-              <div className="h-[320px] w-full p-4 mt-auto">
+              {/* Usunięte h-[320px]! Kontener jest teraz elastyczny */}
+              <div className="w-full relative bg-white">
                   <SimpleAreaChart data={results.timeline} formatPLN={formatPLN as any} />
               </div>
           </div>
 
-          <div className="bg-white rounded-[24px] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-black/5 p-8 flex flex-col group hover:shadow-lg transition-all duration-500">
-              <div className="flex justify-between items-start mb-6">
+          {/* KAFELEK 2: Wykres Kołowy */}
+          <div className="bg-white rounded-[24px] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-black/5 overflow-hidden flex flex-col group hover:shadow-lg transition-all duration-500">
+              <div className="p-6 border-b border-gray-100 flex justify-between items-start bg-white z-10">
                   <div className="flex flex-col">
-                      <h3 className="text-2xl font-black tracking-tighter text-[#1D1D1F]">Struktura portfela</h3>
-                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.25em] mt-2">Analiza ROI</span>
+                      <h3 className="text-lg md:text-xl font-bold tracking-tight text-[#1D1D1F]">Struktura portfela</h3>
+                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.25em] mt-1.5">Analiza ROI</span>
                   </div>
                   <div className="p-3 bg-gray-50 rounded-2xl text-gray-300 group-hover:text-[#0071E3] transition-all">
                       <PieChart size={24} strokeWidth={2.5} />
                   </div>
               </div>
-              <div className="flex-grow w-full">
+              <div className="w-full bg-white">
                   <SimplePieChart amount={Number(amount)} profit={results.total} formatPLN={formatPLN as any} />
               </div>
           </div>
