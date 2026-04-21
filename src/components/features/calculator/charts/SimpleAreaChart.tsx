@@ -28,13 +28,14 @@ export const SimpleAreaChart = ({ data, formatPLN }: SimpleAreaChartProps) => {
   const getX = (index: number) => padding.left + (index * (width - padding.left - padding.right)) / (data.length - 1);
   const getY = (value: number) => height - padding.bottom - ((value - min) * (height - padding.top - padding.bottom)) / range;
 
-  // TWARDE LINIE (Polyline) - koniec z zaokrąglaniem
   const points = data.map((d, i) => `${getX(i)},${getY(d.totalValue)}`).join(' ');
   const areaPoints = `${getX(0)},${height - padding.bottom} ${points} ${getX(data.length - 1)},${height - padding.bottom}`;
 
   return (
-    <div className="relative w-full h-[300px] group select-none">
-      <svg viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none" className="w-full h-full overflow-visible">
+    // CAŁKOWICIE STATYCZNY KONTENER - h-auto pozwala mu się proporcjonalnie zmniejszać na telefonie
+    <div className="relative w-full h-auto group select-none mt-4">
+      {/* Brak preserveAspectRatio="none" oznacza, że wykres nie będzie się zniekształcał */}
+      <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto overflow-visible">
         <defs>
           <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#0071E3" stopOpacity="0.2" />
@@ -47,7 +48,6 @@ export const SimpleAreaChart = ({ data, formatPLN }: SimpleAreaChartProps) => {
           return <line key={p} x1={padding.left} y1={y} x2={width - padding.right} y2={y} className="stroke-[#F1F5F9] stroke-1" />;
         })}
 
-        {/* TWARDE WYPEŁNIENIE I LINIA */}
         <polyline points={areaPoints} fill="url(#chartGradient)" />
         <polyline points={points} fill="none" className="stroke-[#0071E3] stroke-[4px] drop-shadow-md" strokeLinecap="round" strokeLinejoin="round" />
 
@@ -88,7 +88,7 @@ export const SimpleAreaChart = ({ data, formatPLN }: SimpleAreaChartProps) => {
 
       {hoveredIndex !== null && (
         <div 
-          className="absolute z-20 bg-white px-5 py-3 shadow-2xl rounded-2xl pointer-events-none transition-all duration-100 ease-out border border-gray-100"
+          className="absolute z-20 bg-white px-4 py-2 shadow-2xl rounded-2xl pointer-events-none transition-all duration-100 ease-out border border-gray-100"
           style={{ 
             left: `${(getX(hoveredIndex) / width) * 100}%`, 
             top: `${(getY(data[hoveredIndex].totalValue) / height) * 100}%`,
@@ -99,11 +99,11 @@ export const SimpleAreaChart = ({ data, formatPLN }: SimpleAreaChartProps) => {
             <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">
               {hoveredIndex === 0 ? 'Start' : hoveredIndex === data.length - 1 ? 'Wypłata Końcowa' : `Miesiąc ${data[hoveredIndex].month}`}
             </span>
-            <span className="text-xl font-black text-gray-900 tabular-nums tracking-tight">
+            <span className="text-lg md:text-xl font-black text-gray-900 tabular-nums tracking-tight">
               {formatPLN(data[hoveredIndex].totalValue)}
             </span>
             {hoveredIndex > 0 && (
-              <span className="text-[12px] text-[#34C759] font-bold mt-1">
+              <span className="text-[11px] md:text-[12px] text-[#34C759] font-bold mt-1">
                 +{formatPLN((data[hoveredIndex] as any).periodProfit || 0)} zysku
               </span>
             )}

@@ -13,55 +13,59 @@ export const TimelineTable = ({ timeline, amount, formatPLN }: TimelineTableProp
   const filteredTimeline = timeline.filter(item => item.month > 0);
 
   return (
-    <div className="mt-8 mx-auto overflow-hidden bg-white rounded-[24px] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-black/5">
-      <div className="p-6 border-b border-gray-100">
-          <h3 className="text-xl font-semibold text-[#1D1D1F]">Harmonogram wzrostu</h3>
+    // Usunięty wrapper z overflow, tabela w 100% responsywna
+    <div className="mt-8 mx-auto bg-white rounded-[24px] shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-black/5 overflow-hidden">
+      <div className="p-4 md:p-6 border-b border-gray-100">
+          <h3 className="text-lg md:text-xl font-semibold text-[#1D1D1F]">Harmonogram wzrostu</h3>
       </div>
       
-      <div className="w-full overflow-x-auto"> 
-          <table className="w-full border-collapse min-w-[500px]">
+      <div className="w-full"> 
+          <table className="w-full border-collapse">
               <thead>
-                  <tr className="bg-[#F5F5F7] text-left text-[#86868b] text-xs uppercase tracking-wider">
-                      <th className="py-3 px-6 font-semibold">Miesiąc / Zdarzenie</th>
-                      <th className="py-3 px-4 font-semibold">Stan Konta</th>
-                      <th className="py-3 px-4 font-semibold text-right">Zysk Netto</th>
+                  <tr className="bg-[#F5F5F7] text-[#86868b] text-[9px] md:text-xs uppercase tracking-wider">
+                      <th className="py-3 px-3 md:px-6 text-left font-semibold">Miesiąc</th>
+                      <th className="py-3 px-3 md:px-4 text-right font-semibold">Stan Konta</th>
+                      <th className="py-3 px-3 md:px-4 text-right font-semibold">Zysk</th>
                   </tr>
               </thead>
-              <tbody className="text-sm">
+              <tbody className="text-[11px] md:text-sm">
+                  {/* Wiersz Startowy */}
                   <tr className="border-b border-gray-100">
-                      <td className="py-3 px-6">
-                          <div className="flex items-center gap-3">
-                              <div className="w-2.5 h-2.5 rounded-full bg-blue-500 ring-4 ring-blue-50"></div>
-                              <span className="font-medium text-gray-600">Start (Wpłata)</span>
+                      <td className="py-3 px-3 md:px-6">
+                          <div className="flex items-center gap-2 md:gap-3">
+                              <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-blue-500 ring-2 md:ring-4 ring-blue-50 flex-shrink-0"></div>
+                              <span className="font-medium text-gray-600 truncate">Start</span>
                           </div>
                       </td>
-                      <td className="py-3 px-4 font-medium text-[#1D1D1F]">{formatPLN(Number(amount))}</td>
-                      <td className="py-3 px-4 text-right text-gray-400">-</td>
+                      <td className="py-3 px-3 md:px-4 text-right font-medium text-[#1D1D1F]">{formatPLN(Number(amount))}</td>
+                      <td className="py-3 px-3 md:px-4 text-right text-gray-400">-</td>
                   </tr>
+                  
+                  {/* Kolejne miesiące */}
                   {filteredTimeline.map((item, index) => {
                       const isLast = index === filteredTimeline.length - 1;
                       
                       return (
                           <tr key={item.month} className="border-b border-gray-50 last:border-0 hover:bg-gray-50/50 transition-colors">
-                              <td className="py-3 px-6">
-                                  <div className="flex items-center gap-3">
+                              <td className="py-3 px-3 md:px-6">
+                                  <div className="flex items-center gap-2 md:gap-3">
                                       {isLast ? (
-                                          <div className="relative flex h-2.5 w-2.5">
+                                          <div className="relative flex h-2 w-2 md:h-2.5 md:w-2.5 flex-shrink-0">
                                               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
-                                              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-purple-500"></span>
+                                              <span className="relative inline-flex rounded-full h-2 w-2 md:h-2.5 md:w-2.5 bg-purple-500"></span>
                                           </div>
                                       ) : (
-                                          <div className="w-2 h-2 rounded-full bg-[#34C759]"></div>
+                                          <div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-[#34C759] flex-shrink-0"></div>
                                       )}
-                                      <span className={`${isLast ? 'font-bold text-purple-700' : 'text-[#1D1D1F]'}`}>
-                                          {isLast ? `Wypłata (Miesiąc ${item.month})` : `Aktualizacja (Miesiąc ${item.month})`}
+                                      <span className={`${isLast ? 'font-bold text-purple-700' : 'text-[#1D1D1F]'} truncate`}>
+                                          Msc. {item.month}
                                       </span>
                                   </div>
                               </td>
-                              <td className="py-3 px-4 text-[#1D1D1F] font-medium break-words">
+                              <td className="py-3 px-3 md:px-4 text-right text-[#1D1D1F] font-medium whitespace-nowrap">
                                   {formatPLN(item.totalValue)}
                               </td>
-                              <td className={`py-3 px-4 text-right font-semibold break-words ${isLast ? 'text-purple-600' : 'text-[#34C759]'}`}>
+                              <td className={`py-3 px-3 md:px-4 text-right font-semibold whitespace-nowrap ${isLast ? 'text-purple-600' : 'text-[#34C759]'}`}>
                                   +{formatPLN(item.accumulatedProfit)}
                               </td>
                           </tr>

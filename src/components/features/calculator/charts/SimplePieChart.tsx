@@ -41,11 +41,6 @@ export const SimplePieChart = ({ amount, profit, formatPLN }: SimplePieChartProp
             
             <div className="flex items-baseline gap-3 pl-5 flex-wrap">
                 <span className="text-2xl font-black text-emerald-600 tracking-tight">+{formatPLN(profit)}</span>
-                
-                <div className="flex items-center gap-1.5 bg-white md:bg-gray-50 px-2.5 py-1 rounded-lg border border-gray-100 shadow-sm">
-                    <span className="text-[10px] font-bold text-gray-400 uppercase">Suma:</span>
-                    <span className="text-sm font-black text-gray-900">{formatPLN(total)}</span>
-                </div>
             </div>
          </div>
 
